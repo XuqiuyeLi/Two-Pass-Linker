@@ -152,7 +152,8 @@ public class TwoPassLinker{
 				if(letter.equals("A")){
 					address = input.nextInt();
 					if(address % 1000 > 300){
-						System.out.println(address + " Error: Absolute address exceeded machine size; max legal value used.");
+						int position = currentMod + j;
+						System.out.println(" Error: Absolute address " + address +  " at position " + position + " exceeded machine size; max legal value used.");
 						address = (address / 1000 ) * 1000 + 299;
 					}
 					currentModAddr[j] = address;	
@@ -163,13 +164,13 @@ public class TwoPassLinker{
 					// relocate relative address
 					address = currentMod + input.nextInt();
 					if(address % 1000 > currentMod + length){
-						System.out.println(address + " Error: Relative address exceeds module size; 0 (relative) used.");
+						int position = currentMod + j;
+						System.out.println(" Error: Relative address " + address + " at position " + position + " exceeds module size; 0 (relative) used.");
 						address = (address / 1000 ) * 1000 + currentMod;
 					}
 					currentModAddr[j] = address;	
 
 				}
-				//------------ OK ---------------//
 				// EXTERNAL - resolve to absolute addresses
 				if(letter.equals("E")){
 					currentModAddr[j] = input.nextInt();
@@ -189,7 +190,7 @@ public class TwoPassLinker{
 					else{
 						System.out.print("Error: ");
 						System.out.print(ref);
-						System.out.println(" was used not defined; It has been given the value 111.");
+						System.out.println(" was used but not defined; It has been given the value 111.");
 						symbolTable.put(ref, 111);
 						currentModAddr = resolveExternal(currentModAddr, p, ref);
 						symbolUsed.put(ref, true);
